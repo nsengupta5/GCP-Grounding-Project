@@ -33,9 +33,9 @@ resource "google_project_service" "vertex_ai_api" {
 
 # Create a Data Store
 resource "google_discovery_engine_data_store" "basic" {
-  location          = "global"
-  data_store_id     = "data-intensive-store-id"
-  display_name      = "data-intensive-store"
+  location          = var.location
+  data_store_id     = var.data_store_id
+  display_name      = var.data_store_display_name
   industry_vertical = "GENERIC"
   solution_types    = ["SOLUTION_TYPE_SEARCH"]
   content_config    = "CONTENT_REQUIRED"
@@ -43,10 +43,10 @@ resource "google_discovery_engine_data_store" "basic" {
 
 # Create a Search Engine
 resource "google_discovery_engine_search_engine" "basic" {
-  engine_id      = "data-intensive-search-engine-id"
-  collection_id  = "default_collection"
+  engine_id      = var.search_engine_id
+  collection_id  = var.collection_id
   location       = google_discovery_engine_data_store.basic.location
-  display_name   = "data-intensive-search-engine"
+  display_name   = var.search_engine_display_name
   data_store_ids = [google_discovery_engine_data_store.basic.data_store_id]
   search_engine_config {
     search_tier    = "SEARCH_TIER_ENTERPRISE"
@@ -56,8 +56,9 @@ resource "google_discovery_engine_search_engine" "basic" {
 
 # Create a GCS Data Source
 resource "google_storage_bucket" "data_source" {
-  name                        = "data-intensive-paper-source"
+  name                        = var.bucket_name
   location                    = var.region
   storage_class               = "STANDARD"
   uniform_bucket_level_access = true
+  force_destroy               = true
 }

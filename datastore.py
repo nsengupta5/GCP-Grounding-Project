@@ -3,15 +3,11 @@ from google.cloud import discoveryengine_v1alpha as discoveryengine
 from google.cloud import storage
 from google.cloud.storage import transfer_manager
 from pathlib import Path
+from helper import get_tfvars
 
 import logging
 
 DATASOURCE_PATH = "./DataIntensivePapers"
-BUCKET_NAME = "data-intensive-paper-source"
-DATASTORE_NAME = "data-intensive-store"
-DATASTORE_ID = f"{DATASTORE_NAME}-id"
-PROJECT_ID = "summitdemo-439619"
-LOCATION = "global"
 
 
 def upload_files(bucket_name: str, source_dir: str):
@@ -94,5 +90,12 @@ if __name__ == "__main__":
     logging.basicConfig(
         level=logging.INFO, format="%(asctime)s - %(name)s %(levelname)s - %(message)s"
     )
-    upload_files(BUCKET_NAME, DATASOURCE_PATH)
-    import_documents(PROJECT_ID, LOCATION, DATASTORE_ID, BUCKET_NAME)
+    tfvars = get_tfvars("terraform.tfvars")
+    print(tfvars)
+    upload_files(tfvars["bucket_name"], DATASOURCE_PATH)
+    import_documents(
+        tfvars["project_id"],
+        tfvars["location"],
+        tfvars["data_store_id"],
+        tfvars["bucket_name"],
+    )

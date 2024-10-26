@@ -91,7 +91,6 @@ if __name__ == "__main__":
         level=logging.INFO, format="%(asctime)s - %(name)s %(levelname)s - %(message)s"
     )
     tfvars = get_tfvars("terraform.tfvars")
-    print(tfvars)
     upload_files(tfvars["bucket_name"], DATASOURCE_PATH)
     import_documents(
         tfvars["project_id"],

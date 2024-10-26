@@ -15,12 +15,21 @@ provider "google" {
   user_project_override = true
 }
 
+# Enable the Cloud Resource Manager API
+resource "google_project_service" "cloud_resource_manager_api" {
+  project = var.project_id
+  service = "cloudresourcemanager.googleapis.com"
+
+  disable_on_destroy = false
+}
+
 # Enable the Discovery Engine API 
 resource "google_project_service" "discovery_engine_api" {
   project = var.project_id
-  service = "discovery.googleapis.com"
+  service = "discoveryengine.googleapis.com"
 
   disable_on_destroy = false
+  depends_on         = [google_project_service.cloud_resource_manager_api]
 }
 
 # Enable the Vertex AI API
@@ -29,6 +38,7 @@ resource "google_project_service" "vertex_ai_api" {
   service = "aiplatform.googleapis.com"
 
   disable_on_destroy = false
+  depends_on         = [google_project_service.cloud_resource_manager_api]
 }
 
 # Create a Data Store

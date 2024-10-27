@@ -6,7 +6,7 @@ Last Updated On: 27-10-2024
 Email: nikhil.sengupta10@proton.me
 
 Description: This script uploads files from a local directory to a Cloud Storage bucket,
-and then imports the documents from the bucket to a Datastore.
+             and then imports the documents from the bucket to a Datastore.
 """
 
 from google.api_core.client_options import ClientOptions

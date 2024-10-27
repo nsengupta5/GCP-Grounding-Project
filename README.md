@@ -2,6 +2,12 @@
 A mini project exploring grounding in Vertex AI
 
 # Instructions
+
+## Prerequisites
+- Docker
+- GCP account
+
+## Setup
 1. Select or create a GCP project. Note the project ID
 2. Ensure that billing is enabled for your project
 3. Run the Docker container:
@@ -26,22 +32,31 @@ gcloud config set project <PROJECT_ID>
 - `bucket_name`
 
 ```
-vim terraform.tfvars
+nano terraform.tfvars
 ```
-
 The remaining values can be left as is, unless you want to change them.
 
-8. Plan the Terraform deployment:
+## Deployment
+1. Create the resources using Terraform:
 ```
 terraform plan -out "tfplan"
-```
-9. Apply the Terraform deployment:
-```
 terraform apply "tfplan"
 ```
-This will create the necessary resources in GCP.
-
-10. Run the Python script to populate the GCS bucket and Datastore:
+2. Run the Python script to populate the GCS bucket and Datastore:
 ```
 python3 populate_datastore.py
+```
+
+## Interact with the Datastore
+- Navigate to the Agent Builder in the GCP console
+
+## Cleanup
+1. If using a new project, delete the project:
+```
+gcloud projects delete <PROJECT_ID>
+```
+2. If using an existing project, delete the resources:
+```
+terraform plan -destroy -out "tfplan-destroy"
+terraform apply "tfplan-destroy"
 ```

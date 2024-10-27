@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
     gnupg \
     software-properties-common \
     vim \
+    nano \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Terraform

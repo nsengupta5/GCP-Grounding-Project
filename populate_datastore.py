@@ -1,24 +1,47 @@
+"""
+File: populate_datastore.py
+Author: Nikhil Sengupta
+Created On: 25-10-2024
+Last Updated On: 27-10-2024
+Email: nikhil.sengupta10@proton.me
+
+Description: This script uploads files from a local directory to a Cloud Storage bucket,
+and then imports the documents from the bucket to a Datastore.
+"""
+
 from google.api_core.client_options import ClientOptions
 from google.cloud import discoveryengine_v1alpha as discoveryengine
 from google.cloud import storage
 from google.cloud.storage import transfer_manager
 from pathlib import Path
 from helper import get_tfvars
-
 import logging
 
+# Path to the directory containing the files to upload
+# You can change this to the path of the directory containing the files
+# you want to upload
 DATASOURCE_PATH = "./DataIntensivePapers"
 
 
 def upload_files(bucket_name: str, source_dir: str):
+    """
+    Uploads files from a local directory to a Cloud Storage bucket.
+
+    Args:
+        bucket_name (str): The name of the Cloud Storage bucket.
+        source_dir (str): The path to the local directory containing the files to upload.
+    """
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
 
+    # Get all files in the directory
     directory_as_path = Path(source_dir)
     paths = directory_as_path.rglob("*")
 
+    # Filter out directories
     file_paths = [path for path in paths if path.is_file()]
 
+    # Get the filenames
     string_paths = [str(path).split("/")[-1] for path in file_paths]
 
     logging.info(f"Uploading files to {bucket_name}...")
@@ -43,6 +66,18 @@ def import_documents(
     data_store_id: str,
     bucket_name: str,
 ):
+    """
+    Imports documents from a Cloud Storage bucket to a Datastore.
+
+    Args:
+        project_id (str): The project ID.
+        location (str): The location of the Datastore.
+        data_store_id (str): The Datastore ID.
+        bucket_name (str): The name of the Cloud Storage
+
+    Returns:
+        str: The operation name of the import operation.
+    """
     # Create a client
     client_options = (
         ClientOptions(api_endpoint=f"{location}-discoverengine.googleapis.com")
@@ -61,6 +96,7 @@ def import_documents(
 
     source_documents = [f"gs://{bucket_name}/*"]
 
+    # Create the request
     request = discoveryengine.ImportDocumentsRequest(
         parent=parent,
         gcs_source=discoveryengine.GcsSource(
@@ -75,12 +111,12 @@ def import_documents(
     logging.info("Import operation started")
 
     try:
-        response = operation.result()
+        operation.result()
         logging.info("Import operation completed successfully")
     except Exception as e:
         logging.error(f"Long running operation: {e}")
 
-    metadata = discoveryengine.ImportDocumentsMetadata(operation.metadata)
+    discoveryengine.ImportDocumentsMetadata(operation.metadata)
 
     # Handle the response
     return operation.operation.name

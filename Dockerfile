@@ -28,6 +28,7 @@ tee /etc/apt/sources.list.d/hashicorp.list
 
 RUN apt-get update && apt-get install terraform
 
+# Copy the current directory contents into the container at /app
 COPY . /app
 
 WORKDIR /app

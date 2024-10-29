@@ -12,7 +12,7 @@ This project will use PDF files on research papers on data intensive systems as 
 ### Prerequisites
 - Python 3.9+
 - GCP account
-- Terraform
+- Terraform 6.0+
 - Google Cloud SDK (with application-default credentials)
 
 ### Steps
@@ -86,7 +86,7 @@ python3 populate_datastore.py
 ```
 
 ## Interact with the Datastore
-- Navigate to the Agent Builder in the GCP console
+1. Navigate to the Agent Builder in the GCP console
 
 ## Cleanup
 1. If using a new project, delete the project:

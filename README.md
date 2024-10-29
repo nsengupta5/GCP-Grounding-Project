@@ -1,13 +1,50 @@
-# GCP-Grounding-Project
-A mini project exploring grounding in Vertex AI
+# Searching with Vertex AI and Datastore
+
+# Introduction
+This is a mini project exploring the use of Vertex AI and Datastore to build a search engine where the knowledge base can be dynamically updated. The purpose of this project is to demonstrate how Datastore can be used to store and retrieve data, and how Vertex AI can be used to build a search engine.
+
+This project will use PDF files on research papers on data intensive systems as the knowledge base. The PDF files will be stored in a GCS bucket, which will be used to populate the Datastore. The search engine will be built using Vertex AI. However, note that the source for the knowledge base can be any other source, including web pages, BigQuery, APIs, etc. 
 
 # Instructions
 
-## Prerequisites
+## Setup
+
+*Option 1: Run the project locally*
+
+### Prerequisites
+- Python 3.9+
+- GCP account
+- Terraform
+- Google Cloud SDK (with application-default credentials)
+
+### Steps
+1. Select or create a GCP project. Note the project ID
+2. Ensure that billing is enabled for your project
+3. Set the project ID:
+```
+gcloud config set project <PROJECT_ID>
+```
+4. Modify the `terraform.tfvars` file with the appropriate values for:
+- `project_id`
+- `billing_project`
+- `bucket_name`
+5. Create a Python virtual environment:
+```
+python3 -m venv env
+source env/bin/activate
+```
+6. Install the required Python packages:
+```
+pip install -r requirements.txt
+```
+
+*Option 2: Run the project in a Docker container*
+
+### Prerequisites
 - Docker
 - GCP account
 
-## Setup
+### Steps
 1. Select or create a GCP project. Note the project ID
 2. Ensure that billing is enabled for your project
 3. Run the Docker container:

@@ -7,9 +7,7 @@ This project will use PDF files on research papers on data intensive systems as 
 
 # Instructions
 
-## Setup
-
-*Option 1: Run the project locally*
+## Setup Option 1: Run the project locally
 
 ### Prerequisites
 - Python 3.9+
@@ -38,7 +36,7 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
-*Option 2: Run the project in a Docker container*
+## Setup Option 2: Run the project in a Docker container
 
 ### Prerequisites
 - Docker

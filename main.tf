@@ -49,6 +49,7 @@ resource "google_discovery_engine_data_store" "basic" {
   industry_vertical = "GENERIC"
   solution_types    = ["SOLUTION_TYPE_SEARCH"]
   content_config    = "CONTENT_REQUIRED"
+  depends_on        = [google_project_service.discovery_engine_api]
 }
 
 # Create a Search Engine

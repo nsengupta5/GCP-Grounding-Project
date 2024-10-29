@@ -26,6 +26,9 @@ gcloud config set project <PROJECT_ID>
 - `project_id`
 - `billing_project`
 - `bucket_name`
+
+The remaining values can be left as is, unless you want to change them.
+
 5. Create a Python virtual environment:
 ```
 python3 -m venv env
